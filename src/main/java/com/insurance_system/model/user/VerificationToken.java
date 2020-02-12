@@ -1,10 +1,12 @@
 package com.insurance_system.model.user;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
 
+@Data
 @Entity
 @Table(name = "PassworVerificationToken")
 public class VerificationToken {
@@ -44,52 +46,4 @@ public class VerificationToken {
     }
 
 
-    public int getEXPIRY_DATE() {
-        return EXPIRY_DATE;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public Date getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(Date expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        VerificationToken that = (VerificationToken) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }
