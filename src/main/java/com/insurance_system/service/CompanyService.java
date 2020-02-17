@@ -1,6 +1,7 @@
 package com.insurance_system.service;
 
 import com.insurance_system.bean.NullAwareBeanUtilsBean;
+import com.insurance_system.exceptions.UserNotFoundException;
 import com.insurance_system.model.Company;
 import com.insurance_system.repo.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ public class CompanyService {
         return company;
     }
 
-    public Optional<Company> getCompanyById(Long id) {
-        return companyRepository.findById(id);
+    public Company getCompanyById(Long id) {
+        return companyRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
     public Iterable<Company> getListOfCompanies() {
@@ -48,7 +49,7 @@ public class CompanyService {
             }
             companyRepository.save(u);
         });
-        return getCompanyById(id).get();
+        return getCompanyById(id);
     }
 
     public void deleteCompany(Long id){

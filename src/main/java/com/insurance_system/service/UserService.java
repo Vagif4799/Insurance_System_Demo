@@ -1,10 +1,14 @@
 package com.insurance_system.service;
 
 import com.insurance_system.bean.NullAwareBeanUtilsBean;
+import com.insurance_system.exceptions.UserNotFoundException;
 import com.insurance_system.model.User;
 import com.insurance_system.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
@@ -19,9 +23,14 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public User createUser(User user) {
+        userRepository.save(user);
+        return user;
+    }
 
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
     public Iterable<User> getAllUsers() {
@@ -43,11 +52,17 @@ public class UserService {
                     }
                     userRepository.save(u);
                 });
-        return getUserById(id).get();
+        return getUserById(id);
     }
 
     public void deleteUser(Long id) {
          userRepository.deleteById(id);
+    }
+
+
+    public void completeRegister(User user, boolean status) {
+        if (status) user.setStatus(true);
+        userRepository.save(user);
     }
 
 

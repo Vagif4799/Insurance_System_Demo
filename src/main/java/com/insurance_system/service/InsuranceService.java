@@ -1,8 +1,13 @@
 package com.insurance_system.service;
 
 import com.insurance_system.bean.NullAwareBeanUtilsBean;
+import com.insurance_system.exceptions.UserNotFoundException;
 import com.insurance_system.model.Insurance;
 import com.insurance_system.repo.InsuranceRepository;
+import com.insurance_system.repo.UserRepository;
+import com.insurance_system.utilities.EmailUtil;
+import com.insurance_system.utilities.EmailUtilForPdf;
+import com.insurance_system.utilities.PDFGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +19,25 @@ public class InsuranceService {
 
     private InsuranceRepository insuranceRepository;
 
+    private PDFGenerator pdfGenerator;
+
+    private EmailUtilForPdf emailUtil;
+
+    private UserRepository userRepository;
+
     @Autowired
-    public InsuranceService(InsuranceRepository insuranceRepository) {
+    public InsuranceService(InsuranceRepository insuranceRepository, PDFGenerator pdfGenerator, EmailUtilForPdf emailUtil) {
         this.insuranceRepository = insuranceRepository;
+        this.pdfGenerator = pdfGenerator;
+        this.emailUtil = emailUtil;
     }
 
     public Insurance createInsurance(Insurance insurance) {
-        insuranceRepository.save(insurance);
+        Insurance save = insuranceRepository.save(insurance);
+        String filePath = "/Users/quliyevvagif/Desktop/Programming/created_files/generated_file"+save.getId()+".pdf";
+        pdfGenerator.generateInfo(save, filePath);
+        // get user mail
+        emailUtil.sendPDF(insurance.getUsers().get(0).getEmail(), filePath);
         return insurance;
     }
 
@@ -28,8 +45,8 @@ public class InsuranceService {
         return insuranceRepository.findAll();
     }
 
-    public Optional<Insurance> getInsuranceById(Long id) {
-        return insuranceRepository.findById(id);
+    public Insurance getInsuranceById(Long id) {
+        return insuranceRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
     public Insurance updateInsurance(Insurance insurance, Long id) {
@@ -43,7 +60,7 @@ public class InsuranceService {
                 e.printStackTrace();
             }
         });
-        return getInsuranceById(id).get();
+        return getInsuranceById(id);
     }
 
     public void deleteInsurance(Long id) {
