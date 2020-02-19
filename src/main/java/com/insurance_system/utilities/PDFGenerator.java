@@ -50,7 +50,7 @@ public class PDFGenerator {
         table.addCell(insurance.getId().toString());
 
         table.addCell("Insurance Name:");
-        table.addCell(insurance.getName());
+        table.addCell(insurance.getPolicyNumber());
 
         table.addCell("Created Date:");
         table.addCell(insurance.getCreatedDate().toString());

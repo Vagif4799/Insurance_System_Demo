@@ -8,10 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -26,21 +25,44 @@ public class Insurance {
     @Column(name = "insurance_id")
     private Long id;
 
-    @Column
-    @NotNull
-    @Size(min = 1, message = "This field can't be empty.")
-    private String name;
+    private Date fromDate;
+
+    private Date toDate;
+
+      @Column(name = "policyNumber")
+      private String policyNumber;
+
+      @Transient
+      private int insuranceCost;
+
+      @Transient
+      private int numberOfDays;
+
+      private Product product;
+
+      @Column(name = "status")
+      private String status;
+
+      @Column(name = "payment_status")
+      private String paymentStatus;
+
+      @Column
+      private Date registerDate;
+
+      @PrePersist
+      void registerDate() {
+          this.registerDate = new Date();
+      }
+
+      private User createdBy;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "insurances")
     private List<User> users;
 
-    @Column
-    private Date createdDate;
-
-    @PrePersist
-    void createdAt() {
-        this.createdDate = new Date();
-    }
 
 }
+
+/*
+-fromDate,toDate,policyNumber, insuranceCost, numberOfDays,product,status, paymentStatus, registerDate,client,createdBy;
+ */

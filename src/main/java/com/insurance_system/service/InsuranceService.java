@@ -4,13 +4,10 @@ import com.insurance_system.bean.NullAwareBeanUtilsBean;
 import com.insurance_system.exceptions.UserNotFoundException;
 import com.insurance_system.model.Insurance;
 import com.insurance_system.repo.InsuranceRepository;
-import com.insurance_system.repo.UserRepository;
-import com.insurance_system.utilities.EmailUtil;
 import com.insurance_system.utilities.EmailUtilForPdf;
 import com.insurance_system.utilities.PDFGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
@@ -18,12 +15,8 @@ import java.util.Optional;
 public class InsuranceService {
 
     private InsuranceRepository insuranceRepository;
-
     private PDFGenerator pdfGenerator;
-
     private EmailUtilForPdf emailUtil;
-
-    private UserRepository userRepository;
 
     @Autowired
     public InsuranceService(InsuranceRepository insuranceRepository, PDFGenerator pdfGenerator, EmailUtilForPdf emailUtil) {
@@ -55,7 +48,7 @@ public class InsuranceService {
             NullAwareBeanUtilsBean bean = new NullAwareBeanUtilsBean();
             try {
                 bean.copyProperties(i, insurance);
-                if (insurance.getName() != null) i.setName(insurance.getName());
+                if (insurance.getPolicyNumber() != null) i.setPolicyNumber(insurance.getPolicyNumber());
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
