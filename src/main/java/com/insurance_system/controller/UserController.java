@@ -7,6 +7,7 @@ import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -19,6 +20,8 @@ public class UserController {
     private UserService userService;
     private EmailUtil emailUtil;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+
+    private BCryptPasswordEncoder encoder;
 
     @Autowired
     public UserController(UserService userService, EmailUtil emailUtil) {
@@ -41,6 +44,7 @@ public class UserController {
     @PostMapping
     public void createUser(@RequestBody User user) {
         LOGGER.info("New User Created in createUser() method: " + user);
+        user.setPassword(encoder.encode(user.getPassword()));
         userService.createUser(user);
         emailUtil.sendEmail("vagif.dev@gmail.com", "Please, click to complete the registration", "http://localhost:8080/users?status=true");
     }
