@@ -30,7 +30,7 @@ public class InsuranceService {
         String filePath = "/Users/quliyevvagif/Desktop/Programming/created_files/generated_file"+save.getId()+".pdf";
         pdfGenerator.generateInfo(save, filePath);
         // get user mail
-        emailUtil.sendPDF(insurance.getUsers().get(0).getEmail(), filePath);
+        emailUtil.sendPDF(insurance.getClients().get(0).getEmail(), filePath);
         return insurance;
     }
 
