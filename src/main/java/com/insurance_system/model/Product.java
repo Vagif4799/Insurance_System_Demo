@@ -1,6 +1,7 @@
 package com.insurance_system.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -36,5 +38,11 @@ public class Product {
     void createdAt() {
         this.createdDate = new Date();
     }
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "products")
+    List<Insurance> insurances;
+
+
 
 }

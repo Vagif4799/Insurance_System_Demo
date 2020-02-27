@@ -3,7 +3,6 @@ package com.insurance_system.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -11,7 +10,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -53,6 +51,7 @@ public class User {
     @Column(name = "user_status")
     private boolean status;
 
+    @JsonIgnore
     @ManyToOne
     @JoinTable(name = "r_company_user",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
@@ -72,11 +71,13 @@ public class User {
     @Column
     private Date registerDate;
 
+
     @Column
     private String phoneNumber;
 
     @Column
     private Date lastLoginDate;
+
 
     @Enumerated(EnumType.STRING)
     private Role role;

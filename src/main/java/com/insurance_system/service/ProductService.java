@@ -1,7 +1,8 @@
 package com.insurance_system.service;
 
 import com.insurance_system.bean.NullAwareBeanUtilsBean;
-import com.insurance_system.exceptions.UserNotFoundException;
+import com.insurance_system.exceptions.ErrProductNotFoundException;
+import com.insurance_system.exceptions.ErrUserNotFoundException;
 import com.insurance_system.model.Product;
 import com.insurance_system.repo.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class ProductService {
     }
 
     public Product getProductById(Long id) {
-        return productRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        return productRepository.findById(id).orElseThrow(ErrProductNotFoundException::new);
     }
 
     public Product updateProduct(Product product, Long id) {

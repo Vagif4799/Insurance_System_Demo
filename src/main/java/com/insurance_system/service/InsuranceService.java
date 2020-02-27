@@ -1,7 +1,8 @@
 package com.insurance_system.service;
 
 import com.insurance_system.bean.NullAwareBeanUtilsBean;
-import com.insurance_system.exceptions.UserNotFoundException;
+import com.insurance_system.exceptions.ErrInsuranceNotFoundException;
+import com.insurance_system.exceptions.ErrUserNotFoundException;
 import com.insurance_system.model.Insurance;
 import com.insurance_system.repo.InsuranceRepository;
 import com.insurance_system.utilities.EmailUtilForPdf;
@@ -39,7 +40,7 @@ public class InsuranceService {
     }
 
     public Insurance getInsuranceById(Long id) {
-        return insuranceRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        return insuranceRepository.findById(id).orElseThrow(ErrInsuranceNotFoundException::new);
     }
 
     public Insurance updateInsurance(Insurance insurance, Long id) {

@@ -7,10 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import javax.persistence.*;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -42,52 +39,51 @@ public class Insurance {
 
     @Column(name = "from_date")
     private Date fromDate;
-    {
-        fromDate = registerDate;
-    }
+//    {
+//        fromDate = registerDate;
+//    }
 
     @Column(name = "policy_number")
     private String policyNumber;
 
-    {
-        byte[] array = new byte[5]; // length is bounded by 5
-        new Random().nextBytes(array);
-        String generatedString = new String(array, StandardCharsets.UTF_8);
-        policyNumber = getClients().get(0).getFIN() + generatedString;
-    }
+//    {
+//        byte[] array = new byte[5]; // length is bounded by 5
+//        new Random().nextBytes(array);
+//        String generatedString = new String(array, StandardCharsets.UTF_8);
+//        policyNumber = getClients().get(0).getFIN() + generatedString;
+//    }
 
     @Column(name = "number_of_days")
     private int numberOfDays;
 
-    {
-        numberOfDays = (int)((toDate.getTime()-fromDate.getTime())/(24*60*60*1000));
-    }
+//    {
+//        numberOfDays = (int)((toDate.getTime()-fromDate.getTime())/(24*60*60*1000));
+//    }
 
     @Column(name = "status")
     private String status;
-    {
-        Date now = new Date();
-        if (now.equals(registerDate)){
-            status = "ACTIVE";
-        } else if (now.compareTo(registerDate) > 0 && now.compareTo(toDate) < 0) {
-            status = "IN_PROGRESS";
-        } else {
-            status = "DEACTIVATED";
-        }
-    }
+//    {
+//        Date now = new Date();
+//        if (now.equals(registerDate)){
+//            status = "ACTIVE";
+//        } else if (now.compareTo(registerDate) > 0 && now.compareTo(toDate) < 0) {
+//            status = "IN_PROGRESS";
+//        } else {
+//            status = "DEACTIVATED";
+//        }
+//    }
 
     // Should be redefined after Payment module
     @Column(name = "payment_status")
     private String paymentStatus;
 
-    {
-        paymentStatus = "PAID";
-    }
+//    {
+//        paymentStatus = "PAID";
+//    }
 
     @Column(name = "insurance_cost")
     private int insuranceCost;
 
-    private Product product;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "insurances")
@@ -96,6 +92,22 @@ public class Insurance {
     @JsonIgnore
     @ManyToMany(mappedBy = "insurances")
     private List<User> createdBy;
+
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "r_insurance_product",
+            joinColumns = @JoinColumn(name = "insurance_id", referencedColumnName = "insurance_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "product_id")
+    )
+    private List<Product> products;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "insurances")
+    private List<User> users;
+
+
 
 
 

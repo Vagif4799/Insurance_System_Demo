@@ -1,15 +1,12 @@
 package com.insurance_system.service;
 
 import com.insurance_system.bean.NullAwareBeanUtilsBean;
-import com.insurance_system.exceptions.UserNotFoundException;
+import com.insurance_system.exceptions.ErrCompanyNotFoundException;
+import com.insurance_system.exceptions.ErrUserNotFoundException;
 import com.insurance_system.model.Company;
 import com.insurance_system.repo.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
@@ -30,7 +27,7 @@ public class CompanyService {
     }
 
     public Company getCompanyById(Long id) {
-        return companyRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        return companyRepository.findById(id).orElseThrow(ErrCompanyNotFoundException::new);
     }
 
     public Iterable<Company> getListOfCompanies() {

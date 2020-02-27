@@ -1,7 +1,7 @@
 package com.insurance_system.service;
 
 import com.insurance_system.bean.NullAwareBeanUtilsBean;
-import com.insurance_system.exceptions.UserNotFoundException;
+import com.insurance_system.exceptions.ErrUserNotFoundException;
 import com.insurance_system.model.User;
 import com.insurance_system.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,9 @@ public class UserService {
 
 
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        return userRepository.findById(id).orElseThrow(ErrUserNotFoundException::new);
     }
+
 
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
